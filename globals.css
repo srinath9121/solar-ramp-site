@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap');
+
+/* ─── DESIGN TOKENS ──────────────────────────────────────── */
+:root {
+  --bg:        #050505;
+  --bg2:       #0a0a0a;
+  --line:      #141414;
+  --line2:     #1f1f1f;
+  --muted:     #2a2a2a;
+  --mid:       #444;
+  --sub:       #666;
+  --fg:        #f0f0f0;
+  --white:     #ffffff;
+
+  --font-disp: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:   cubic-bezier(0.7, 0, 0.84, 0);
+}
+
+/* ─── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background:  var(--bg);
+  color:       var(--fg);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  overflow-x:  hidden;
+  cursor:      none;   /* custom cursor */
+}
+
+/* ─── CUSTOM CURSOR ──────────────────────────────────────── */
+#cursor {
+  position:      fixed;
+  width:         8px;
+  height:        8px;
+  background:    var(--white);
+  border-radius: 50%;
+  pointer-events:none;
+  z-index:       9999;
+  transform:     translate(-50%, -50%);
+  transition:    transform 0.08s var(--ease-out),
+                 width 0.2s var(--ease-out),
+                 height 0.2s var(--ease-out),
+                 opacity 0.2s;
+  mix-blend-mode:difference;
+}
+#cursor.hovering {
+  width: 40px;
+  height: 40px;
+  opacity: 0.5;
+}
+
+/* ─── SCROLLBAR ──────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 2px; background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--muted); }
+
+/* ─── SCROLL PROGRESS ────────────────────────────────────── */
+#scroll-bar {
+  position:   fixed;
+  top: 0; left: 0; right: 0;
+  height:     1px;
+  background: var(--line);
+  z-index:    200;
+}
+#scroll-bar-fill {
+  height:     100%;
+  background: var(--white);
+  width:      0%;
+  transition: width 0.05s linear;
+}
+
+/* ─── REVEAL ANIMATION ───────────────────────────────────── */
+.reveal {
+  opacity:   0;
+  transform: translateY(28px);
+  transition:
+    opacity   0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+}
+.reveal.visible {
+  opacity:   1;
+  transform: translateY(0);
+}
+
+/* ─── RANGE INPUT ────────────────────────────────────────── */
+input[type=range] {
+  -webkit-appearance: none;
+  width:      100%;
+  height:     1px;
+  background: var(--line2);
+  outline:    none;
+  cursor:     pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width:        10px;
+  height:       10px;
+  background:   var(--white);
+  border-radius:0;
+}
+input[type=range]::-moz-range-thumb {
+  width:  10px; height: 10px;
+  background: var(--white);
+  border-radius: 0; border: none;
+}
+
+/* ─── SEVERE BLINK ───────────────────────────────────────── */
+@keyframes severeBlink {
+  0%,100% { opacity: 1;    }
+  50%     { opacity: 0.12; }
+}
+
+/* ─── PAGE TRANSITIONS ───────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.page-enter {
+  animation: fadeUp 0.65s var(--ease-out) both;
+}
+
+/* ─── GRAIN OVERLAY ──────────────────────────────────────── */
+#grain {
+  position:      fixed;
+  inset:         0;
+  z-index:       1;
+  pointer-events:none;
+  opacity:       0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px;
+}
